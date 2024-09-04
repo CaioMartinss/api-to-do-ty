@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import userController from './controllers/user_controller';
+import userRegisterRouter from './routes/register/user_register_router';
+import userLoginRouter from './routes/login/user_login_router';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -9,7 +10,8 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 
 // Use as rotas de usuário
-app.use('/', userController);
+app.use('/', userRegisterRouter);
+app.use('/', userLoginRouter);
 
 // Inicializa o servidor
 app.listen(port, () => {
