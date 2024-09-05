@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import  loginUser  from '../services/login_user_service';
+import loginUser from '../services/login_user_service';
 import { validationResult } from 'express-validator';
 
 export const login = async (req: Request, res: Response) => {
@@ -7,7 +7,7 @@ export const login = async (req: Request, res: Response) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-
+  
   const { email, password } = req.body;
 
   try {
@@ -22,6 +22,5 @@ export const login = async (req: Request, res: Response) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
-
 
 export default login;

@@ -18,5 +18,4 @@ export const loginUser = async (email: string, password: string): Promise<string
   return null;
 };
 
-
 export default loginUser;
