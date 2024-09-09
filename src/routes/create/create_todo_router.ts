@@ -5,6 +5,6 @@ import authenticate from '../../middlewares/auth_middleware';
 
 const todoRouter = Router();
 
-todoRouter.post('/todos', authenticate, validateTodo, create);
+todoRouter.post('/create_todos', authenticate, validateTodo, create);
 
 export default todoRouter;

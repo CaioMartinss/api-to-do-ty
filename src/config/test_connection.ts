@@ -1,21 +1,26 @@
-// src/testConnection.ts
+import express from 'express';
+import bodyParser from 'body-parser';
+import prisma from '../config/prisma';
 
-import prisma from '../config/prisma';  // Certifique-se de que o caminho esteja correto
+const app = express();
+const port = process.env.PORT || 3000;
 
-async function testConnection() {
+// Middleware para parser JSON
+app.use(bodyParser.json());
+
+app.listen(port, async () => {
+  console.log(`Server is running on port ${port}`);
+
+  // Testar a conexão com o banco de dados
   try {
     await prisma.$connect();
     console.log('Connected to the database successfully');
-
-    // Teste simples para verificar se a conexão está funcionando
-    const users = await prisma.user.findMany();
-    console.log('Retrieved users:', users);
-
   } catch (error) {
     console.error('Error connecting to the database:', error);
   } finally {
     await prisma.$disconnect();
   }
-}
+});
 
-testConnection();
+
+export { app };

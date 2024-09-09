@@ -9,5 +9,8 @@
     "outDir": "./dist"                      // Diretório de saída para os arquivos compilados
   },
   "include": ["src"],                        // Inclui todos os arquivos na pasta 'src'
-  "exclude": ["node_modules"]                // Exclui a pasta 'node_modules'
+  "exclude": ["node_modules"],                // Exclui a pasta 'node_modules'
+  "devDependencies": {
+    "@types/cookiejar": "^1.0.0"
+  }
 }
