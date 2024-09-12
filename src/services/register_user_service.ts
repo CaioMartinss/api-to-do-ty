@@ -2,7 +2,7 @@ import prisma from '../config/prisma';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import generateToken from '../config/jwt'
+//import generateToken from '../config/jwt';
 
 interface UserData {
   name: string;
@@ -41,6 +41,9 @@ export async function createUser({ name, email, password }: UserData) {
 }
 
 // Função para criar um token JWT
-generateToken;
+function generateToken(userId: string): string {
+  const secret = process.env.JWT_SECRET || 'your-secret-key';
+  return jwt.sign({ userId }, secret, { expiresIn: '1h' });
+}
 
 export default createUser;

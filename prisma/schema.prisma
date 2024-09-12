@@ -18,7 +18,7 @@ model User {
   name     String   @unique
   email    String   @unique
   password String
-  todos    Todo[]
+  todos    Todo[]   // A relação é definida aqui, mas sem `onDelete`
 }
 
 model Todo {
@@ -26,8 +26,9 @@ model Todo {
   title       String
   description String?
   userId      String   @db.ObjectId
-  user        User     @relation(fields: [userId], references: [id])
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade) // Define `onDelete` aqui
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
 

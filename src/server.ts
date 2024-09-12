@@ -23,6 +23,7 @@ app.use('/', updateTodo);
 
 // Inicializa o servidor
 
+
 //dizer ola
 app.get('/', (req, res) => {
   res.send('Hello World!');
