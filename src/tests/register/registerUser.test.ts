@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { app } from '../../server'; // Ajuste o caminho se necessário
+import { app } from '../../server';
 
 // Função para gerar senha que atenda ao padrão
 function generateValidPassword() {
@@ -8,7 +8,7 @@ function generateValidPassword() {
   const number = String.fromCharCode(48 + Math.floor(Math.random() * 10)); // Número
   const randomChars = Math.random().toString(36).substring(2, 6); // Caracteres aleatórios
 
-  return `${upperCase}${lowerCase}${number}${randomChars}`; // Senha composta com no mínimo 6 caracteres
+  return `${upperCase}${lowerCase}${number}${randomChars}`;
 }
 
 describe('POST /register', () => {
@@ -18,8 +18,7 @@ describe('POST /register', () => {
     const aleatoryEmail = `${Math.random()
       .toString(36)
       .substring(7)}@example.com`;
-    const aleatoryPassword = generateValidPassword(); // Gera uma senha válida
-
+    const aleatoryPassword = generateValidPassword();
     const newUser = {
       name: aleatoryName,
       email: aleatoryEmail,

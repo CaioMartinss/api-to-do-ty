@@ -4,6 +4,6 @@ import authenticate from '../../middlewares/auth_middleware'; // Middleware de a
 
 const deleteTodoRouter = Router();
 
-deleteTodoRouter.delete('/todos/:id', authenticate, deleteTodo); // Adiciona o middleware 'authenticate'
+deleteTodoRouter.delete('/delete_todos/:id', authenticate, deleteTodo); // Adiciona o middleware 'authenticate'
 
 export default deleteTodoRouter;

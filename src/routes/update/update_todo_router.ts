@@ -5,6 +5,6 @@ import { Router } from 'express';
 
 const updateTodoRouter = Router();
 
-updateTodoRouter.put('/todos/:id', updateAuthenticate, updateTodo);
+updateTodoRouter.put('/update_todos/:id', updateAuthenticate, updateTodo);
 
 export default updateTodoRouter;
