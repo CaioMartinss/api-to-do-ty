@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import deleteTodoService from '../services/delete_todo_service';
 
-export const deleteTodo = async (req: Request, res: Response) => {
+export const deleteTodoController = async (req: Request, res: Response) => {
   const todoId = req.params.id;
   const userId = (req as any).user?.userId; // Verifica se o userId existe
 
@@ -29,4 +29,4 @@ export const deleteTodo = async (req: Request, res: Response) => {
   }
 };
 
-export default deleteTodo;
+export default deleteTodoController;

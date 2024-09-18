@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import listTodosService from '../services/list_todo_service';
 
-export const listTodos = async (req: Request, res: Response) => {
+export const listTodoController = async (req: Request, res: Response) => {
   try {
     const todos = await listTodosService();
     return res.status(200).json(todos);
@@ -11,4 +11,4 @@ export const listTodos = async (req: Request, res: Response) => {
   }
 };
 
-export default listTodos;
+export default listTodoController;

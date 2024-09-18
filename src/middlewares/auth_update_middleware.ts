@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'; // Tipos do Express
 import jwt from 'jsonwebtoken'; // Biblioteca JWT para lidar com tokens
 
-const updateAuthenticate = (
+const updateAuthenticateMiddleware = (
   req: Request,
   res: Response,
   next: NextFunction
@@ -26,4 +26,4 @@ const updateAuthenticate = (
   }
 };
 
-export default updateAuthenticate;
+export default updateAuthenticateMiddleware;

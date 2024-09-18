@@ -2,15 +2,13 @@ import prisma from '../config/prisma';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-//import generateToken from '../config/jwt';
-
 interface UserData {
   name: string;
   email: string;
   password: string;
 }
 
-export async function createUser({ name, email, password }: UserData) {
+export async function registerUserService({ name, email, password }: UserData) {
   try {
     // Verifica se o usuário já existe
     const existingUser = await prisma.user.findUnique({ where: { email } });
@@ -46,4 +44,4 @@ function generateToken(userId: string): string {
   return jwt.sign({ userId }, secret, { expiresIn: '1h' });
 }
 
-export default createUser;
+export default registerUserService;

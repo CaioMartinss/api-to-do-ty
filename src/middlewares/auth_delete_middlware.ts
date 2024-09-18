@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 
-export const authenticate = (
+export const authenticateDeleteMiddleware = (
   req: Request,
   res: Response,
   next: NextFunction
@@ -22,3 +22,5 @@ export const authenticate = (
     return res.status(401).json({ message: 'Token is not valid' });
   }
 };
+
+export default authenticateDeleteMiddleware;

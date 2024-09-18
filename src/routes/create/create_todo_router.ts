@@ -1,10 +1,15 @@
 import { Router } from 'express';
-import create from '../../controllers/create_todo_controller';
-import validateTodo from '../../middlewares/validate_todo_middleware';
-import authenticate from '../../middlewares/auth_middleware';
+import createTodoController from '../../controllers/create_todo_controller';
+import validateTodoMiddleware from '../../middlewares/validate_todo_middleware';
+import authenticateMiddleware from '../../middlewares/auth_middleware';
 
-const todoRouter = Router();
+const createTodoRouter = Router();
 
-todoRouter.post('/create_todos', authenticate, validateTodo, create);
+createTodoRouter.post(
+  '/create_todos',
+  authenticateMiddleware,
+  validateTodoMiddleware,
+  createTodoController
+);
 
-export default todoRouter;
+export default createTodoRouter;

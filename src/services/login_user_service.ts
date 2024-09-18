@@ -2,7 +2,7 @@ import prisma from '../config/prisma';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-export const loginUser = async (
+export const loginUserService = async (
   email: string,
   password: string
 ): Promise<string | null> => {
@@ -19,4 +19,4 @@ export const loginUser = async (
   return null;
 };
 
-export default loginUser;
+export default loginUserService;

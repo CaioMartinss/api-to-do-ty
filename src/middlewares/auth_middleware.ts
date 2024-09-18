@@ -1,7 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-const authenticate = (req: Request, res: Response, next: NextFunction) => {
+const authenticateMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -22,4 +26,4 @@ const authenticate = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export default authenticate;
+export default authenticateMiddleware;

@@ -1,6 +1,6 @@
 import { body } from 'express-validator';
 
-const validateTodo = [
+const validateTodoMiddleware = [
   body('title')
     .notEmpty()
     .withMessage('Title is required')
@@ -18,5 +18,4 @@ const validateTodo = [
     .withMessage('Description must be at most 50 characters long'),
 ];
 
-
-export default validateTodo;
+export default validateTodoMiddleware;

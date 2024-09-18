@@ -7,7 +7,7 @@ interface CreateTodoData {
   userId: string;
 }
 
-const createTodo = async ({ title, description, userId }: CreateTodoData) => {
+const createTodoService = async ({ title, description, userId }: CreateTodoData) => {
   const todo = await prisma.todo.create({
     data: {
       title,
@@ -18,4 +18,4 @@ const createTodo = async ({ title, description, userId }: CreateTodoData) => {
   return todo;
 };
 
-export default createTodo;
+export default createTodoService;

@@ -2,7 +2,7 @@ import { body, validationResult } from 'express-validator';
 import { Request, Response, NextFunction } from 'express';
 import prisma from '../config/prisma';
 
-const validateUser = [
+const validateUserMiddleware = [
   body('name')
     .notEmpty()
     .withMessage('Name is required')
@@ -52,4 +52,4 @@ const validateUser = [
   },
 ];
 
-export default validateUser;
+export default validateUserMiddleware;

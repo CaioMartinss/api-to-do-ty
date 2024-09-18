@@ -1,15 +1,13 @@
 import { body } from 'express-validator';
 
-const validateLogin = [
+const validateLoginMiddleware = [
   body('email')
     .notEmpty()
     .withMessage('Email is required')
     .isEmail()
     .withMessage('Invalid email format'),
-  
-  body('password')
-    .notEmpty()
-    .withMessage('Password is required')
+
+  body('password').notEmpty().withMessage('Password is required'),
 ];
 
-export default validateLogin;
+export default validateLoginMiddleware;

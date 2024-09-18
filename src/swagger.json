@@ -1,0 +1,817 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Todo API",
+    "version": "1.0.0",
+    "description": "API for task management, using roadmap.sh as reference"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "register",
+      "description": "router to register a new user",
+      "externalDocs": {
+        "description": "Find out more about user operations",
+        "url": "http://swagger.io"
+      }
+    },
+    {
+      "name": "login",
+      "description": "router to login as a user, it does require authentication by token",
+      "externalDocs": {
+        "description": "Find out more about login operations",
+        "url": "http://swagger.io"
+      }
+    },
+    {
+      "name": "create",
+      "description": "routre to create a new todo",
+      "externalDocs": {
+        "description": "Find out more about tasks operations",
+        "url": "http://swagger.io"
+      }
+    },
+    {
+      "name": "list",
+      "description": "router to list todos, does not need authentication.",
+      "externalDocs": {
+        "description": "Find out more about tasks operations",
+        "url": "http://swagger.io"
+      }
+    },
+    {
+      "name": "update",
+      "description": "router to update a todo",
+      "externalDocs": {
+        "description": "Find out more about tasks operations",
+        "url": "http://swagger.io"
+      }
+    },
+    {
+      "name": "delete",
+      "description": "router to delete a todo or user login",
+      "externalDocs": {
+        "description": "Find out more about tasks operations",
+        "url": "http://swagger.io"
+      }
+    }
+  ],
+  "paths": {
+    "/register_user": {
+      "post": {
+        "tags": ["register"],
+        "summary": "Register a new user",
+        "description": "Endpoint to register a new user and return a token.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "User's name",
+                    "example": "John Doe",
+                    "minLength": 3
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "User's email",
+                    "example": "example@gmail.com",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "User's password",
+                    "example": "Password123",
+                    "minLength": 6,
+                    "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{6,}$"
+                  }
+                },
+                "required": ["name", "email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User successfully registered, returns token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User registered successfully"
+                    },
+                    "token": {
+                      "type": "string",
+                      "description": "JWT token for the registered user",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "msg": {
+                            "type": "string",
+                            "description": "Error message"
+                          },
+                          "param": {
+                            "type": "string",
+                            "description": "Invalid parameter"
+                          },
+                          "location": {
+                            "type": "string",
+                            "description": "Location of the error"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login_user": {
+      "post": {
+        "tags": ["login"],
+        "summary": "Login a user",
+        "description": "Endpoint to login a user and return a token.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "User's email",
+                    "example": "example@gmail.com",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "User's password",
+                    "example": "Password123",
+                    "minLength": 6
+                  }
+                },
+                "required": ["email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User successfully logged in, returns token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User logged in successfully"
+                    },
+                    "token": {
+                      "type": "string",
+                      "description": "JWT token for the logged-in user",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error with login",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "msg": {
+                            "type": "string",
+                            "description": "Error message"
+                          },
+                          "param": {
+                            "type": "string",
+                            "description": "Invalid parameter"
+                          },
+                          "location": {
+                            "type": "string",
+                            "description": "Location of the error"
+                          }
+                        },
+                        "enum": [
+                          "Invalid or expired token",
+                          "Username not found or not provided",
+                          "Password not found or not provided"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized or expired token"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "create_todos": {
+      "post": {
+        "tags": ["create"],
+        "summary": "Create a todo",
+        "description": "Endpoint to create a new todo.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "description": "Task's title",
+                    "example": "Buy groceries",
+                    "minLength": 3
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Task's description",
+                    "example": "Buy milk, eggs, and bread"
+                  },
+                  "due_date": {
+                    "type": "string",
+                    "description": "Task's due date",
+                    "example": "2021-12-31"
+                  }
+                },
+                "required": ["title", "description"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Task successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Task created successfully"
+                    },
+                    "task": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "Task's id",
+                          "example": "60f3b3b3b3b3b3b3b3b3b3b3"
+                        },
+                        "title": {
+                          "type": "string",
+                          "description": "Task's title",
+                          "example": "Buy groceries"
+                        },
+                        "description": {
+                          "type": "string",
+                          "description": "Task's description",
+                          "example": "Buy milk, eggs, and bread"
+                        },
+                        "due_date": {
+                          "type": "string",
+                          "description": "Task's due date",
+                          "example": "2021-12-31"
+                        },
+                        "status": {
+                          "type": "string",
+                          "description": "Task's status",
+                          "example": "pending"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "msg": {
+                            "type": "string",
+                            "description": "Error message"
+                          },
+                          "param": {
+                            "type": "string",
+                            "description": "Invalid parameter"
+                          },
+                          "location": {
+                            "type": "string",
+                            "description": "Location of the error"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized access"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Specific reason for the authorization failure",
+                      "enum": [
+                        "Token not provided",
+                        "Token not found",
+                        "Token expired"
+                      ],
+                      "example": "Token expired"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "list_todos": {
+      "get": {
+        "tags": ["list"],
+        "summary": "List all tasks",
+        "description": "Endpoint to list all tasks.",
+        "responses": {
+          "200": {
+            "description": "Tasks successfully listed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "Task's id",
+                            "example": "60f3b3b3b3b3b3b3b3b3b3b"
+                          },
+                          "title": {
+                            "type": "string",
+                            "description": "Task's title",
+                            "example": "Buy groceries"
+                          },
+                          "description": {
+                            "type": "string",
+                            "description": "Task's description",
+                            "example": "Buy milk, eggs, and bread"
+                          },
+                          "due_date": {
+                            "type": "string",
+                            "description": "Task's due date",
+                            "example": "2021-12-31"
+                          },
+                          "status": {
+                            "type": "string",
+                            "description": "Task's status",
+                            "example": "pending"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error listing tasks",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Error listing tasks"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/update_todos/{id}": {
+      "put": {
+        "tags": ["update"],
+        "summary": "Update a task",
+        "description": "Endpoint to update a task by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Task's ID to update",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "description": "Updated task title",
+                    "example": "Buy groceries"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Updated task description",
+                    "example": "Buy milk, eggs, and bread"
+                  },
+                  "due_date": {
+                    "type": "string",
+                    "description": "Updated task due date",
+                    "example": "2021-12-31",
+                    "format": "date"
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "Updated task status"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Task successfully updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Task updated successfully"
+                    },
+                    "task": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "Task's ID",
+                          "example": "60f3b3b3b3b3b3b3b3b3b3b3"
+                        },
+                        "title": {
+                          "type": "string",
+                          "description": "Task's title",
+                          "example": "Buy groceries"
+                        },
+                        "description": {
+                          "type": "string",
+                          "description": "Task's description",
+                          "example": "Buy milk, eggs, and bread"
+                        },
+                        "due_date": {
+                          "type": "string",
+                          "description": "Task's due date",
+                          "example": "2021-12-31",
+                          "format": "date"
+                        },
+                        "status": {
+                          "type": "string",
+                          "description": "Task's status"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request, validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "msg": {
+                            "type": "string",
+                            "description": "Error message"
+                          },
+                          "param": {
+                            "type": "string",
+                            "description": "Invalid parameter"
+                          },
+                          "location": {
+                            "type": "string",
+                            "description": "Location of the error"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized access"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Specific reason for the authorization failure",
+                      "enum": [
+                        "Token not provided",
+                        "Token not found",
+                        "Token expired"
+                      ],
+                      "example": "Token expired"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/delete_todos/{id}": {
+      "delete": {
+        "tags": ["delete"],
+        "summary": "Delete a task",
+        "description": "Endpoint",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Task's ID to delete",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Task successfully deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Task deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error deleting task",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Error deleting task"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized access"
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Specific reason for the authorization failure",
+                      "enum": [
+                        "Token not provided",
+                        "Token not found",
+                        "Token expired"
+                      ],
+                      "example": "Token expired or invalid"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/delete_user": {
+      "delete": {
+        "tags": ["delete"],
+        "summary": "Delete User Account",
+        "description": "This endpoint allows an authenticated user to delete their own account. The user must provide a valid JWT token in the Authorization header and their email and password to confirm the action.",
+        "operationId": "deleteUser",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "body",
+            "description": "User's email to confirm deletion",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "email",
+              "example": "user@example.com"
+            }
+          },
+          {
+            "name": "password",
+            "in": "body",
+            "description": "User's password to confirm deletion",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "password",
+              "example": "userPassword123"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
