@@ -6,7 +6,7 @@
     "build": "tsc",
     "test": "jest --passWithNoTests",
     "dev": "nodemon src/server.ts",
-    "serve": "swagger project start"
+    "server": "swagger project start"
   },
   "keywords": [],
   "author": "",
