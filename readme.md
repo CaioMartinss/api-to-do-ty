@@ -79,9 +79,23 @@ To run the API using Docker and Docker Compose, follow these steps:
 
 You can test the API using tools like Insomnia or Postman. Import the API documentation from Swagger for easy testing of endpoint.
 
+### API Endpoints
+
+The application provides several API endpoints for the functionalities mentioned above. Below are some key endpoints:
+
+- **Signup:** <span style="color:green">`POST /register_user`</span>
+- **Login:** <span style="color:green">`POST /login_user`</span>
+- **Create todo:** <span style="color:green">`POST /create_todos`</span>
+- **List:** <span style="color:blue">`GET /list_todos`</span>
+- **Update:** <span style="color:orange">`PUT /update_todos/{id}`</span>
+- **Delete todo:** <span style="color:red">`DELETE /delete_todos/{id}`</span>
+- **Delete user:** <span style="color:red">`DELETE /delete_user`</span>
+
+
+
 ### License
 
-Distributed under the MIT License. See LICENSE [LICENSE](LICENSE)for more information.
+Distributed under the MIT License. See LICENSE [LICENSE](LICENSE) for more information.
 
 
 This project is based on [https://roadmap.sh](https://roadmap.sh/projects/todo-list-api).
